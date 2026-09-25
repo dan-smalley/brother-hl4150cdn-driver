@@ -1,4 +1,4 @@
-"""XL2HB protocol emitter for the Brother HL-4150CDN.
+"""XL2HB protocol emitter for the Brother MFC-9460CDN.
 
 Wraps compressed plane data in the XL2HB byte stream (a PCL-XL
 variant) the printer accepts. Operators, attribute IDs, MediaSize

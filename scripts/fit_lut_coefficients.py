@@ -1,4 +1,4 @@
-"""Fit a parametric 3-layer decomposition to the Brother HL-4150CDN color LUT.
+"""Fit a parametric 3-layer decomposition to the Brother MFC-9460CDN color LUT.
 
 Decomposes the 17x17x17 -> CMYK LUT into three physically interpretable layers:
   1. 1D tone curves: per-channel transfer functions (4 CMYK x 3 RGB x 17 points)

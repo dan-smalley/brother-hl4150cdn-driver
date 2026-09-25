@@ -1,4 +1,4 @@
-"""Parametric color data generation for Brother HL-4150CDN.
+"""Parametric color data generation for Brother MFC-9460CDN.
 
 Generates the color lookup tables and interpolation tables from a compact
 parametric description instead of binary data files.

@@ -1,4 +1,4 @@
-"""Ordered dithering for the Brother HL-4150CDN.
+"""Ordered dithering for the Brother MFC-9460CDN.
 
 Converts continuous-tone intensity values to 1bpp or 4bpp planes.
 Loads BRCD cache files (per-channel threshold tables) when available

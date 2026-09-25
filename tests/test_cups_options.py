@@ -253,12 +253,12 @@ class TestCupsOptionsMultiple:
 class TestPpdDefaults:
     """CUPS passes only the job's options; the queue's PPD defaults fill the rest."""
 
-    _PPD = Path(__file__).resolve().parent.parent / "cups" / "brhl4150cdn.ppd"
+    _PPD = Path(__file__).resolve().parent.parent / "cups" / "brmfc9460cdn.ppd"
 
     def test_reads_defaults_of_shipped_ppd(self):
         defaults = read_ppd_defaults(self._PPD)
         assert defaults["BRGray"] == "ON"
-        assert defaults["PageSize"] == "A4"
+        assert defaults["PageSize"] == "Letter"
         assert defaults["BRBrightness"] == "0"
 
     def test_missing_ppd_gives_no_defaults(self, tmp_path):
@@ -268,7 +268,7 @@ class TestPpdDefaults:
         """An IPP job from a desktop carries no BR* options: BRGray=ON comes from the PPD."""
         s = PrintSettings.from_cups_options("", ppd_defaults=read_ppd_defaults(self._PPD))
         assert s.improve_gray is True
-        assert s.page_size == PageSize.A4
+        assert s.page_size == PageSize.LETTER
 
     def test_job_options_override_ppd_defaults(self):
         defaults = {"BRGray": "ON", "BRColorMatching": "Normal", "PageSize": "A4"}

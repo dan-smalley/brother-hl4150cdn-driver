@@ -19,7 +19,7 @@ class MediaType(StrEnum):
     """Paper/media type selection (maps to XL2HB MediaType attribute).
 
     Values are this driver's PPD choices; Brother's own spellings from
-    brhl4150cdnrc and its PPD (BOND, Env, PostCard) are accepted as aliases.
+    brmfc9460cdnrc and its PPD (BOND, Env, PostCard) are accepted as aliases.
     """
 
     PLAIN = "Plain"
@@ -132,7 +132,7 @@ class InputSlot(StrEnum):
 
 @dataclass
 class PrintSettings:
-    """Print settings, corresponding to brhl4150cdnrc."""
+    """Print settings, corresponding to brmfc9460cdnrc."""
 
     media_type: MediaType = MediaType.PLAIN
     page_size: PageSize = PageSize.A4
@@ -157,7 +157,7 @@ class PrintSettings:
 
     @classmethod
     def from_rc_file(cls, path: str) -> Self:
-        """Read settings from brhl4150cdnrc.
+        """Read settings from brmfc9460cdnrc.
 
         Returns:
             Populated settings instance (defaults if the file has no sections).

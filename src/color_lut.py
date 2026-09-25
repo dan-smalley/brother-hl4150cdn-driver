@@ -1,4 +1,4 @@
-"""3D colour LUT interpolation for the Brother HL-4150CDN.
+"""3D colour LUT interpolation for the Brother MFC-9460CDN.
 
 Maps RGB input to CMYK ink values via a 17x17x17 grid plus tetrahedral
 interpolation tables. Which of the 18 grids applies is decided like

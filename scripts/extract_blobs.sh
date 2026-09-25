@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #
-# extract_blobs.sh - Pull Brother HL-4150CDN calibration tables into src/.
+# extract_blobs.sh - Pull Brother MFC-9460CDN calibration tables into src/.
 #
 # The driver needs the printer's calibration tables (colour LUTs and dither
 # tables) to drive the hardware. Those tables ship inside the official
@@ -17,14 +17,16 @@ LUT_DIR="$REPO_DIR/src/lut"
 COLOR_DATA_DIR="$REPO_DIR/src/color_data"
 WORK_DIR="$REPO_DIR/.brother-blobs"
 
-DEB_URL="https://download.brother.com/welcome/dlf005940/hl4150cdnlpr-1.1.1-5.i386.deb"
-DEB_FILE="$WORK_DIR/hl4150cdnlpr-1.1.1-5.i386.deb"
-DEB_MD5="dd803993d4a29a432d63141201821b82"
+DEB_URL="https://download.brother.com/pub/com/linux/linux/dlf/mfc9460cdnlpr-1.1.1-5.i386.deb"
+DEB_FILE="$WORK_DIR/mfc9460cdnlpr-1.1.1-5.i386.deb"
+DEB_MD5="5c6e7ca447ee3c9d135d9fa9f2a2a469"
 
-FILTER_BIN_PATH="usr/local/Brother/Printer/hl4150cdn/lpd/brhl4150cdnfilter"
-LUT_PATH_IN_DEB="usr/local/Brother/Printer/hl4150cdn/inf/lut"
+FILTER_BIN_PATH="usr/local/Brother/Printer/mfc9460cdn/lpd/brmfc9460cdnfilter"
+LUT_PATH_IN_DEB="usr/local/Brother/Printer/mfc9460cdn/inf/lut"
 
-# Single-blob offsets in brhl4150cdnfilter (verified against driver version 1.1.1-5).
+# Single-blob offsets in brmfc9460cdnfilter (driver version 1.1.1-5). That
+# binary is byte-identical to brhl4150cdnfilter 1.1.1-5, where the offsets were
+# first found, and the BRCD dither tables in inf/lut/ match as well.
 # name=offset:size
 # Colour LUTs are named <profile>[_ig]_<variant>_lut.bin after the tables
 # `lookup_color_transform_table` picks from: profile rgb (Normal), srgb
