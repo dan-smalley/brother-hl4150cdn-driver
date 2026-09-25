@@ -1,12 +1,24 @@
-# Brother HL-4150CDN Driver
+# Brother MFC-9460CDN Driver
 
-[![CI](https://github.com/cl445/brother-hl4150cdn-driver/actions/workflows/ci.yml/badge.svg)](https://github.com/cl445/brother-hl4150cdn-driver/actions/workflows/ci.yml)
+[![CI](https://github.com/dan-smalley/brother-hl4150cdn-driver/actions/workflows/ci.yml/badge.svg)](https://github.com/dan-smalley/brother-hl4150cdn-driver/actions/workflows/ci.yml)
 [![Python 3.13+](https://img.shields.io/badge/python-3.13+-blue.svg)](https://www.python.org/downloads/)
 [![License: GPL-3.0-or-later](https://img.shields.io/badge/license-GPL--3.0--or--later-blue.svg)](LICENSE)
 
-Open-source CUPS driver for the Brother HL-4150CDN color laser printer.
-Written in Python with optional Cython acceleration, runs anywhere CUPS
-does — including ARM (Raspberry Pi).
+Open-source CUPS driver for the printer side of the Brother MFC-9460CDN
+colour laser multifunction printer. Written in Python with optional Cython
+acceleration, runs anywhere CUPS does — including ARM (Raspberry Pi).
+Scanning and PC-fax are not covered.
+
+This is a fork of [cl445/brother-hl4150cdn-driver](https://github.com/cl445/brother-hl4150cdn-driver).
+The MFC-9460CDN shares its print engine with the HL-4150CDN: Brother's
+MFC-9460CDN LPR driver (`mfc9460cdnlpr-1.1.1-5`) ships a
+`brmfc9460cdnfilter` that is byte-identical to the HL-4150CDN's
+`brhl4150cdnfilter`, with the same colour and dither tables and paper
+geometry, and Brother's macOS driver for the MFC-9460CDN runs the
+HL-4150CDN raster filter (`rastertobrother4150`). The fork therefore
+keeps the HL-4150CDN rendering pipeline unchanged. It pulls the
+calibration tables from the MFC-9460CDN package and ships a PPD that
+identifies the MFC-9460CDN.
 
 ## Status
 
@@ -18,7 +30,8 @@ grayscale, and for simplex, long-edge and short-edge duplex. Paper sizes
 other than A4 are checked byte for byte on Letter, A5, DL, 3x5 and
 Envelope #4; for all 21 sizes the page header values match the original.
 Correctness is established by byte-level comparison against captures from
-the manufacturer's filter.
+the manufacturer's filter (taken with the HL-4150CDN build of it, which is
+the same binary).
 
 Fine mode (1200 dpi) emits valid framing; the compressed band data is
 not yet byte-identical.
@@ -40,7 +53,7 @@ inverse LUTs, a 131-page job goes through the CUPS filter in about
 - About 130 MB of disk space for the precomputed inverse colour LUTs
   (Normal and Vivid, 64 MiB each). `install.sh` computes them, which takes
   about two minutes on a Pi 3.
-- A copy of the official Brother HL-4150CDN LPR driver `.deb`
+- A copy of the official Brother MFC-9460CDN LPR driver `.deb`
   (`scripts/extract_blobs.sh` downloads and verifies it; the printer's
   calibration tables are extracted into `src/lut/` and `src/color_data/`
   and are not redistributed)
@@ -48,7 +61,7 @@ inverse LUTs, a 131-page job goes through the CUPS filter in about
 ## Install
 
 ```bash
-git clone https://github.com/cl445/brother-hl4150cdn-driver.git
+git clone https://github.com/dan-smalley/brother-hl4150cdn-driver.git
 cd brother-hl4150cdn-driver
 
 uv sync --all-extras
@@ -62,19 +75,23 @@ Pick the device URI that matches how the printer is attached:
 | Connection | URI | Discover |
 |---|---|---|
 | Ethernet / Wi-Fi | `socket://<printer-ip>:9100` | manufacturer's web UI / `nmap -p9100` |
-| USB | `usb://Brother/HL-4150CDN?serial=<serial>` | `lpinfo --include-schemes usb -l -v` |
+| USB | `usb://Brother/MFC-9460CDN?serial=<serial>` | `lpinfo --include-schemes usb -l -v` |
 
 Without `--add-printer`, register the queue manually:
 
 ```bash
-sudo lpadmin -p Brother_HL-4150CDN -E \
+sudo lpadmin -p Brother_MFC-9460CDN -E \
   -v <device-uri> \
-  -P /usr/share/cups/model/brhl4150cdn.ppd
+  -P /usr/share/cups/model/brmfc9460cdn.ppd
 ```
 
 `sudo cups/uninstall.sh --remove-printer` cleans up.
 
 ### Upgrading
+
+Coming from the HL-4150CDN driver this fork is based on? Its files live
+under different names. Remove them with that checkout's
+`sudo cups/uninstall.sh --remove-printer`, then install this one.
 
 Pull, then re-run `./scripts/extract_blobs.sh` and `sudo cups/install.sh`.
 Existing queues keep their old copy of the PPD; to pick up new options
@@ -82,7 +99,7 @@ Existing queues keep their old copy of the PPD; to pick up new options
 the queue's default options:
 
 ```bash
-sudo lpadmin -p Brother_HL-4150CDN -P /usr/share/cups/model/brhl4150cdn.ppd
+sudo lpadmin -p Brother_MFC-9460CDN -P /usr/share/cups/model/brmfc9460cdn.ppd
 ```
 
 ## Settings
@@ -92,7 +109,7 @@ Pass them as `-o key=value` to `lp` / `lpr` for scripting.
 
 | Option | Values | Notes |
 |---|---|---|
-| `PageSize` | A4, Letter, Legal, Executive, A5, PRA5Rotated (A5 long edge), A6, ISOB5, ISOB6, JISB5, JISB6, Postcard, EnvDL, EnvPRC5Rotated (DL long edge), EnvC5, Env10 (Com-10), EnvMonarch, Br3x5, FanFoldGermanLegal (Folio), EnvYou4 (Envelope #4), EnvChou3 (Envelope MAX) | |
+| `PageSize` | Letter (default), A4, Legal, Executive, A5, PRA5Rotated (A5 long edge), A6, ISOB5, ISOB6, JISB5, JISB6, Postcard, EnvDL, EnvPRC5Rotated (DL long edge), EnvC5, Env10 (Com-10), EnvMonarch, Br3x5, FanFoldGermanLegal (Folio), EnvYou4 (Envelope #4), EnvChou3 (Envelope MAX) | |
 | `BRMediaType` | Plain, Thin, Thick, Thicker, Bond, Envelope, EnvThin, EnvThick, Recycled, Postcard, Label, Glossy | Glossy uses the glossy colour tables |
 | `BRResolution` | 600dpi (Normal), 600x2400dpi (Fine) | Fine mode is incomplete (see Status) |
 | `BRMonoColor` | Auto, FullColor, Mono | |
@@ -101,7 +118,7 @@ Pass them as `-o key=value` to `lp` / `lpr` for scripting.
 | `BRGray` | OFF, ON | Improve gray: ImpGray colour tables |
 | `BREnhanceBlkPrt` | OFF, ON | Enhance black: rich black for pure black |
 | `BRImproveOutput` | OFF, BRLessPaperCurl, BRFixIntensity | |
-| `BRInputSlot` | AutoSelect, Tray1, Tray2, MPTray | |
+| `BRInputSlot` | AutoSelect, Tray1, Tray2, MPTray, Manual | |
 | `BRTonerSaveMode` | OFF, ON | Toner-save dither and colour tables |
 | `BRSkipBlank` | OFF, ON | |
 | `BRReverse` | OFF, ON | Reverse page order |
@@ -157,13 +174,13 @@ parametrized test (`tests/test_full_pipeline.py` has the existing pattern).
 ## License
 
 [GPL-3.0-or-later](LICENSE). The PPD in `cups/` is derived from
-Brother's GPL-2.0-or-later HL-4150CDN PPD; see the file header for
-attribution. The Brother calibration tables that `extract_blobs.sh`
+Brother's GPL-2.0-or-later HL-4150CDN PPD, with model identification
+from Brother's MFC-9460CDN PPD; see the file header for attribution. The Brother calibration tables that `extract_blobs.sh`
 pulls in remain under their own licence and never enter this
 repository.
 
 ## Trademarks
 
-Brother and HL-4150CDN are trademarks of Brother Industries, Ltd. This
+Brother, MFC-9460CDN and HL-4150CDN are trademarks of Brother Industries, Ltd. This
 project is an independent, community-driven driver and is not affiliated
 with, endorsed by, or sponsored by Brother Industries, Ltd.

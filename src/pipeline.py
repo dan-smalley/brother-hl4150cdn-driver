@@ -356,13 +356,13 @@ def _band_kernel_colour(
 def _render_threads() -> int:
     """Number of band render threads.
 
-    `BRHL4150CDN_RENDER_THREADS` overrides the default of one thread per
+    `BRMFC9460CDN_RENDER_THREADS` overrides the default of one thread per
     spare core, at most three; 0 renders on the calling thread.
 
     Returns:
         Thread count, >= 0.
     """
-    configured = os.environ.get("BRHL4150CDN_RENDER_THREADS")
+    configured = os.environ.get("BRMFC9460CDN_RENDER_THREADS")
     if configured is not None:
         return max(0, int(configured))
     return max(1, min(3, (os.cpu_count() or 1) - 1))
@@ -371,7 +371,7 @@ def _render_threads() -> int:
 @cache
 def _band_executor(workers: int) -> ThreadPoolExecutor:
     """Return the process-wide pool of `workers` render threads."""
-    return ThreadPoolExecutor(max_workers=workers, thread_name_prefix="brhl4150cdn-band")
+    return ThreadPoolExecutor(max_workers=workers, thread_name_prefix="brmfc9460cdn-band")
 
 
 def _split_bands(blocks: RowBlocks) -> Iterator[tuple[npt.NDArray[np.uint8], int]]:
@@ -616,7 +616,7 @@ def _render_pages_reversed(
     """
     duplex = settings.duplex != DuplexMode.NONE
     spans: list[tuple[int, int]] = []
-    with tempfile.TemporaryFile(prefix="brhl4150cdn-reverse-") as spool:
+    with tempfile.TemporaryFile(prefix="brmfc9460cdn-reverse-") as spool:
         for index, (width, height, pixel_data) in enumerate(pages):
             # Without page_count the side is unknown; that is only allowed
             # when it does not change the output (simplex, short-edge duplex).

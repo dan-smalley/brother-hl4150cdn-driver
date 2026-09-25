@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""brfilter.py - PPM → PJL + XL2HB filter for the Brother HL-4150CDN.
+"""brfilter.py - PPM → PJL + XL2HB filter for the Brother MFC-9460CDN.
 
 Convenience facade over the pipeline, settings and PPM modules, used by
 the tests. Run as a script to invoke the CLI (`python src/brfilter.py`).

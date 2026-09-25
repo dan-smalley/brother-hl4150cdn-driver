@@ -1,4 +1,4 @@
-"""Helpers in the CUPS filter script (loaded from cups/brhl4150cdn-filter)."""
+"""Helpers in the CUPS filter script (loaded from cups/brmfc9460cdn-filter)."""
 
 import importlib.machinery
 import importlib.util
@@ -6,12 +6,12 @@ from pathlib import Path
 
 import pytest
 
-_FILTER = Path(__file__).resolve().parent.parent / "cups" / "brhl4150cdn-filter"
+_FILTER = Path(__file__).resolve().parent.parent / "cups" / "brmfc9460cdn-filter"
 
 
 @pytest.fixture(scope="module")
 def cups_filter():
-    loader = importlib.machinery.SourceFileLoader("brhl4150cdn_filter", str(_FILTER))
+    loader = importlib.machinery.SourceFileLoader("brmfc9460cdn_filter", str(_FILTER))
     spec = importlib.util.spec_from_loader(loader.name, loader)
     assert spec is not None
     module = importlib.util.module_from_spec(spec)
@@ -42,7 +42,7 @@ def test_count_ps_pages_falls_back_to_ghostscript(cups_filter, tmp_path):
     assert cups_filter.count_ps_pages(str(path)) == 5
 
 
-_PPD = _FILTER.parent / "brhl4150cdn.ppd"
+_PPD = _FILTER.parent / "brmfc9460cdn.ppd"
 
 
 def _ppd_paper_dimensions() -> dict[str, tuple[int, int]]:

@@ -16,8 +16,8 @@ logger = logging.getLogger(__name__)
 
 def main() -> None:
     """CLI entry point: read PPM from stdin, write XL2HB to stdout."""
-    parser = argparse.ArgumentParser(description="Brother HL-4150CDN filter (PPM -> XL2HB)")
-    parser.add_argument("--rc", "-r", help="Path to RC file (brhl4150cdnrc)", default=None)
+    parser = argparse.ArgumentParser(description="Brother MFC-9460CDN filter (PPM -> XL2HB)")
+    parser.add_argument("--rc", "-r", help="Path to RC file (brmfc9460cdnrc)", default=None)
     parser.add_argument("--paper", "-p", help="Paper size (e.g. A4, Letter)", default=None)
     parser.add_argument("--mono", "-m", action="store_true", help="Print monochrome")
     parser.add_argument("--toner-save", "-t", action="store_true", help="Toner save mode")

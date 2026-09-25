@@ -1,5 +1,5 @@
 """
-Brother HL-4150CDN XL2HB raster decoder.
+Brother MFC-9460CDN XL2HB raster decoder.
 
 Inverse of brother_encode.py — decodes RLE-compressed plane data back to
 raw 1bpp scanline bytes.

@@ -67,7 +67,7 @@ class TestRCFileParsing:
 
     def test_parse_standard_rc(self):
         rc = self._write_rc("""\
-[hl4150cdn]
+[mfc9460cdn]
 MediaType=Thick
 PageSize=Letter
 InputSlot=Tray1
@@ -112,7 +112,7 @@ BRReverse=ON
         assert s.reverse is True
 
     def test_parse_minimal_rc(self):
-        rc = self._write_rc("[hl4150cdn]\nMediaType=Envelope\n")
+        rc = self._write_rc("[mfc9460cdn]\nMediaType=Envelope\n")
         s = PrintSettings.from_rc_file(rc)
         assert s.media_type == "Envelope"
         assert s.page_size == "A4"  # default preserved
@@ -123,7 +123,7 @@ BRReverse=ON
 
         rc_path = (
             Path(__file__).resolve().parent.parent
-            / ".brother-blobs/extracted/usr/local/Brother/Printer/hl4150cdn/inf/brhl4150cdnrc"
+            / ".brother-blobs/extracted/usr/local/Brother/Printer/mfc9460cdn/inf/brmfc9460cdnrc"
         )
         if not rc_path.exists():
             pytest.skip("Brother driver not extracted; run scripts/extract_blobs.sh")

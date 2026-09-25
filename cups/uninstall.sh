@@ -1,11 +1,11 @@
 #!/bin/bash
 #
-# Uninstall the open-source Brother HL-4150CDN CUPS driver.
+# Uninstall the open-source Brother MFC-9460CDN CUPS driver.
 #
 set -euo pipefail
 
 # Installation paths
-LIB_DIR="/usr/local/lib/brhl4150cdn"
+LIB_DIR="/usr/local/lib/brmfc9460cdn"
 
 # Detect OS-specific CUPS paths
 CUPS_PPD_DIR="/usr/share/cups/model"
@@ -50,28 +50,28 @@ if [[ $EUID -ne 0 ]]; then
     exit 1
 fi
 
-echo "Uninstalling Brother HL-4150CDN open-source driver..."
+echo "Uninstalling Brother MFC-9460CDN open-source driver..."
 
 # Remove printer queue if requested
 if $REMOVE_PRINTER; then
-    if lpstat -p Brother_HL-4150CDN &>/dev/null; then
-        echo "Removing printer queue 'Brother_HL-4150CDN'..."
-        lpadmin -x Brother_HL-4150CDN
+    if lpstat -p Brother_MFC-9460CDN &>/dev/null; then
+        echo "Removing printer queue 'Brother_MFC-9460CDN'..."
+        lpadmin -x Brother_MFC-9460CDN
     else
-        echo "Printer queue 'Brother_HL-4150CDN' not found (skipping)."
+        echo "Printer queue 'Brother_MFC-9460CDN' not found (skipping)."
     fi
 fi
 
 # Remove CUPS filter
-if [[ -f "$CUPS_FILTER_DIR/brhl4150cdn-filter" ]]; then
+if [[ -f "$CUPS_FILTER_DIR/brmfc9460cdn-filter" ]]; then
     echo "Removing CUPS filter..."
-    rm -f "$CUPS_FILTER_DIR/brhl4150cdn-filter"
+    rm -f "$CUPS_FILTER_DIR/brmfc9460cdn-filter"
 fi
 
 # Remove PPD
-if [[ -f "$CUPS_PPD_DIR/brhl4150cdn.ppd" ]]; then
+if [[ -f "$CUPS_PPD_DIR/brmfc9460cdn.ppd" ]]; then
     echo "Removing PPD..."
-    rm -f "$CUPS_PPD_DIR/brhl4150cdn.ppd"
+    rm -f "$CUPS_PPD_DIR/brmfc9460cdn.ppd"
 fi
 
 # Remove library directory
@@ -84,10 +84,10 @@ echo ""
 echo "Uninstallation complete."
 
 if ! $REMOVE_PRINTER; then
-    if lpstat -p Brother_HL-4150CDN &>/dev/null; then
+    if lpstat -p Brother_MFC-9460CDN &>/dev/null; then
         echo ""
-        echo "Note: Printer queue 'Brother_HL-4150CDN' still exists."
+        echo "Note: Printer queue 'Brother_MFC-9460CDN' still exists."
         echo "To remove it, run: sudo $0 --remove-printer"
-        echo "Or manually: sudo lpadmin -x Brother_HL-4150CDN"
+        echo "Or manually: sudo lpadmin -x Brother_MFC-9460CDN"
     fi
 fi

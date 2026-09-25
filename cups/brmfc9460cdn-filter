@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
 """
-CUPS filter for the Brother HL-4150CDN.
+CUPS filter for the Brother MFC-9460CDN.
 
 Receives PostScript from CUPS, rasterizes it with Ghostscript and streams
 the pages through the XL2HB pipeline (pipeline.filter_pages).
 
 Usage (called by CUPS):
-    brhl4150cdn-filter job-id user title copies options [filename]
+    brmfc9460cdn-filter job-id user title copies options [filename]
 """
 
 import itertools
@@ -18,7 +18,7 @@ import subprocess
 import sys
 import tempfile
 
-# Installed, the modules live next to this script in /usr/local/lib/brhl4150cdn/
+# Installed, the modules live next to this script in /usr/local/lib/brmfc9460cdn/
 # (the CUPS wrapper also sets PYTHONPATH); in the repository they are in src/.
 _SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 _SRC_DIR = os.path.join(os.path.dirname(_SCRIPT_DIR), "src")
@@ -61,10 +61,10 @@ PAPER_POINTS = {
 
 logging.basicConfig(
     level=logging.INFO,
-    format="%(levelname)s: brhl4150cdn-filter: %(message)s",
+    format="%(levelname)s: brmfc9460cdn-filter: %(message)s",
     stream=sys.stderr,
 )
-logger = logging.getLogger("brhl4150cdn-filter")
+logger = logging.getLogger("brmfc9460cdn-filter")
 
 
 def find_gs() -> str:

@@ -33,7 +33,7 @@ class TestDitherAPI:
 
 
 # ---------------------------------------------------------------------------
-# 1bpp ordered dithering (bitmap mode — what the HL-4150CDN uses)
+# 1bpp ordered dithering (bitmap mode — what the MFC-9460CDN uses)
 # ---------------------------------------------------------------------------
 
 

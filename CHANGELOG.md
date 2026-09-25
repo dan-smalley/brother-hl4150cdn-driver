@@ -6,6 +6,24 @@ follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+Retargeted at the Brother MFC-9460CDN. Its Linux LPR driver
+(`mfc9460cdnlpr-1.1.1-5`) ships a filter binary byte-identical to
+`brhl4150cdnfilter` 1.1.1-5, with the same dither tables and paper
+geometry, so the rendering pipeline and its byte-exact tests are unchanged.
+
+### Changed
+- `scripts/extract_blobs.sh` pulls the calibration tables from
+  `mfc9460cdnlpr-1.1.1-5.i386.deb` (same offsets).
+- The PPD identifies the MFC-9460CDN (`brmfc9460cdn.ppd`,
+  `MDL:MFC-9460CDN`) and defaults to Letter, as Brother's MFC-9460CDN PPD
+  does.
+- Filter, install directory and queue are renamed: `brmfc9460cdn-filter`,
+  `/usr/local/lib/brmfc9460cdn`, `Brother_MFC-9460CDN`. The render-thread
+  override is now `BRMFC9460CDN_RENDER_THREADS`.
+
+### Added
+- `Manual` paper source (manual feed), as in Brother's MFC-9460CDN PPD.
+
 ## [1.1.0] — 2026-09-24
 
 Output now matches the manufacturer's filter byte for byte for every RC
